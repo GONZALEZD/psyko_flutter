@@ -1,0 +1,132 @@
+{
+    "@@locale" : "fr",
+    "app_title": "Psycho Puzzle!",
+
+    "login_email_hint": "Saisissez votre adresse email",
+    "@login_email_hint": {
+        "description": "Saisissez votre adresse email ici"
+    },
+
+    "login_password_hint": "Saisissez votre mot de passe",
+    "@login_password_hint": {
+        "description": "Saisissez votre mot de passe ici"
+    },
+
+    "login_text_button": "Se connecter",
+    "@login_text_button": {
+        "description": "Se connecter au jeu"
+    },
+
+    "login_error_invalid_email": "Adresse email incorrecte",
+    "@login_error_invalid_email": {
+        "description": "Adresse email incorrecte"
+    },
+
+    "login_error_unknown_email": "Adresse email inconnue",
+    "@login_error_unknown_email": {
+        "description": "Adresse email inconnue"
+    },
+
+    "login_error_incorrect_password": "Mot de passe incorrect",
+    "@login_error_incorrect_password": {
+        "description": "Mot de passe incorrect"
+    },
+
+    "login_error_disabled_email": "Cette adresse email a été désactivée",
+    "@login_error_disabled_email": {
+        "description": "Cette adresse email a été désactivée"
+    },
+
+    "login_go_back_button": "Retours vers le menu principal",
+    "login_connect_button": "Se connecter",
+    "login_create_account_button": "Créer un nouveau compte",
+
+    "create_account_button": "Valider",
+    "create_account_email_title": "Email",
+    "create_account_email_hint": "Saisissez une adresse email valide",
+    "create_account_password_title": "Mot de passe",
+    "create_account_password_hint": "Saisissez votre mot de passe",
+    "create_account_displayname_title": "Nom",
+    "create_account_displayname_hint": "Nom qui sera visible par les autres joueurs",
+
+    "create_account_error_invalid_email": "Adresse email invalide",
+    "create_account_error_email_in_use": "Cette adresse email est déjà utilisée",
+    "create_account_error_weak_password": "La sécurité de votre mot de passe est trop faible.",
+    "create_account_error_operation_not_allowed": "Cette opération n'est pas authorisée",
+
+    "game_difficulty_easy": "Facile",
+    "@game_difficulty_easy": {
+        "description": "Jeu en difficulté facile"
+    },
+
+    "game_difficulty_medium": "Normal",
+    "@game_difficulty_medium": {
+        "description": "Jeu en difficulté normale"
+    },
+
+    "game_difficulty_hard": "Dur",
+    "@game_difficulty_hard": {
+        "description": "Jeu en difficulté dure"
+    },
+
+    "play_game_button": "Jouer",
+    "@play_game_button": {
+        "description": "Jouer"
+    },
+
+    "menu_new_game": "Nouveau",
+    "@menu_new_game": {
+        "description": "Nouveau jeu"
+    },
+
+    "menu_scores": "Scores",
+    "@menu_scores": {
+        "description": "Tableau des scores"
+    },
+
+    "menu_game_rules": "Aide",
+    "@menu_game_rules": {
+        "description": "Comment jouer"
+    },
+
+    "menu_my_profile": "Mon profil",
+    "@menu_my_profile": {
+        "description": "Mon profil"
+    },
+
+    "score_move_count": "déplacements",
+    "@menu_my_profile": {
+        "description": "Déplacements"
+    },
+
+    "play_timer": "Temps écoulé",
+    "@play_timer": {
+        "description": "Temps écoulé"
+    },
+
+    "play_moves": "Déplacements",
+    "@play_moves": {
+        "description": "Déplacements"
+    },
+
+    "play_congratulations": "Félicitations !",
+    "@play_congratulations": {
+        "description": "Félicitations !"
+    },
+
+    "tutorial_01_title": "Bienvenu !",
+    "tutorial_01_body": "Partez à l'aventure à travers le monde.\nDécouvrez des sites insolites en resolvant des puzzles animés.",
+
+    "tutorial_02_title": "Comment jouer ?",
+    "tutorial_02_body": "Chaque niveau représente une grille de pièces à remettre dans le bon ordre.\nPour cela, cliquez sur une des pièces adjacente à la case laissée vide pour la déplacer.",
+
+    "tutorial_03_title_web": "Astuce de déplacement",
+    "tutorial_03_body_web": "Vous pouvez aussi déplacer les pièces en utilisant les flèches directionnelles de votre clavier.",
+
+    "tutorial_04_title": "Fin de partie",
+    "tutorial_04_body": "Une fois toutes les pièces du puzzle remises dans l'ordre, l'image entière apparait.\nPour vous y aider, chaque pièce correctement placées sont en couleur.",
+
+    "tutorial_next_button": "Suivant",
+    "tutorial_done_button": "Compris",
+    "tutorial_skip_button": "Passer le tutoriel"
+}

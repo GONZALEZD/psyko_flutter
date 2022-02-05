@@ -1,0 +1,135 @@
+{
+  "@@locale" : "en",
+  "app_title": "Psycho Puzzle!",
+  "@app_title": {
+    "description": "Psycho Puzzle"
+  },
+
+  "login_email_hint": "Fill your email address",
+  "@login_email_hint": {
+    "description": "Write your account email address here"
+  },
+
+  "login_password_hint": "Fill your password",
+  "@login_password_hint": {
+    "description": "Write your account password here"
+  },
+
+  "login_text_button": "Login",
+  "@login_text_button": {
+    "description": "Log into the game"
+  },
+
+  "login_error_invalid_email": "Invalid email",
+  "@login_error_invalid_email": {
+    "description": "Invalid email"
+  },
+
+  "login_error_unknown_email": "Unknown email",
+  "@login_error_unknown_email": {
+    "description": "Unknown email"
+  },
+
+  "login_error_incorrect_password": "Incorrect password",
+  "@login_error_incorrect_password": {
+    "description": "Incorrect password"
+  },
+
+  "login_error_disabled_email": "This email address has been disabled",
+  "@login_error_disabled_email": {
+    "description": "This email address has been disabled"
+  },
+
+  "login_go_back_button": "Go back to main menu",
+  "login_connect_button": "Login",
+  "login_create_account_button": "Create a new account",
+
+  "create_account_button": "Validate",
+  "create_account_email_title": "Email",
+  "create_account_email_hint": "Provide a valid email address",
+  "create_account_password_title": "Password",
+  "create_account_password_hint": "Enter a password",
+  "create_account_displayname_title": "Display name",
+  "create_account_displayname_hint": "Name that will be shown to other players",
+
+  "create_account_error_invalid_email": "Invalid email",
+  "create_account_error_email_in_use": "This email is already in use",
+  "create_account_error_weak_password": "Your password is too weak.",
+  "create_account_error_operation_not_allowed": "Operation not allowed",
+
+  "game_difficulty_easy": "Easy",
+  "@game_difficulty_easy": {
+    "description": "Easy game difficulty"
+  },
+
+  "game_difficulty_medium": "Medium",
+  "@game_difficulty_medium": {
+    "description": "Normal game difficulty"
+  },
+
+  "game_difficulty_hard": "Hard",
+  "@game_difficulty_hard": {
+    "description": "Hard game difficulty"
+  },
+
+  "play_game_button": "Play",
+  "@play_game_button": {
+    "description": "Play"
+  },
+
+  "menu_new_game": "New game",
+  "@menu_new_game": {
+    "description": "New game"
+  },
+
+  "menu_scores": "Scores",
+  "@menu_scores": {
+    "description": "Players scores board"
+  },
+
+  "menu_game_rules": "Help",
+  "@menu_game_rules": {
+    "description": "How to play"
+  },
+
+  "menu_my_profile": "My profile",
+  "@menu_my_profile": {
+    "description": "My profile"
+  },
+
+  "score_move_count": "moves",
+  "@menu_my_profile": {
+    "description": "Moves"
+  },
+
+  "play_timer": "Timer",
+  "@play_timer": {
+    "description": "Timer"
+  },
+
+  "play_moves": "Moves",
+  "@play_moves": {
+    "description": "Moves"
+  },
+
+  "play_congratulations": "Congratulations !",
+  "@play_congratulations": {
+    "description": "Congratulations !"
+  },
+
+  "tutorial_01_title": "Welcome !",
+  "tutorial_01_body": "Go on an adventure around the world.\nDiscover unusual sites by solving animated puzzles.",
+
+  "tutorial_02_title": "How to play ?",
+  "tutorial_02_body": "Each level represents a grid of pieces to be put back in the correct order.\nTo do this, click on one of the pieces adjacent to the space left empty to move it.",
+
+  "tutorial_03_title_web": "Move Tip",
+  "tutorial_03_body_web": "You can also move the pieces using the arrow keys on your keyboard.",
+
+  "tutorial_04_title": "End of game",
+  "tutorial_04_body": "Once all the pieces of the puzzle are put back in order, the whole image appears.\nTo help you do this, each correctly placed piece is colored.",
+
+  "tutorial_next_button": "Next",
+  "tutorial_done_button": "Done",
+  "tutorial_skip_button": "Skip tutorial"
+}
