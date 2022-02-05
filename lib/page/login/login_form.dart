@@ -18,11 +18,13 @@ class _LoginFormState extends State<LoginForm> {
   String? _errorPassword;
   bool _enableLoginButton = false;
 
+  final _focuses = [null, FocusNode(), FocusNode()];
+
   @override
   void initState() {
     super.initState();
-    _identifierController = TextEditingController(text: "inelokii@gmail.com");
-    _passwordController = TextEditingController(text: "Toulouse2022@");
+    _identifierController = TextEditingController();
+    _passwordController = TextEditingController();
     _enableLoginButton = _identifierController.text.isNotEmpty && _passwordController.text.isNotEmpty;
   }
 
@@ -33,7 +35,10 @@ class _LoginFormState extends State<LoginForm> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
+          autofocus: true,
+          focusNode: _focuses[0],
           controller: _identifierController,
+          onEditingComplete: () => _nextFocus(_focuses[0]),
           onChanged: _onIdentifierChanged,
           decoration: InputDecoration(
             hintText: localizedStrings.login_email_hint,
@@ -41,6 +46,8 @@ class _LoginFormState extends State<LoginForm> {
           ),
         ),
         TextField(
+          focusNode: _focuses[1],
+          onEditingComplete: () => _nextFocus(_focuses[1]),
           controller: _passwordController,
           obscureText: true,
           onChanged: _onPasswordChanged,
@@ -52,6 +59,7 @@ class _LoginFormState extends State<LoginForm> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: ElevatedButton(
+            focusNode: _focuses[2],
             onPressed: _enableLoginButton ? _authenticate : null,
             child: Text(localizedStrings.login_text_button),
           ),
@@ -60,6 +68,14 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
+  void _nextFocus(FocusNode? current) {
+    final index = _focuses.indexOf(current) +1;
+    if(index < _focuses.length) {
+      setState(() {
+        _focuses[index]?.requestFocus();
+      });
+    }
+  }
   void _onIdentifierChanged(String text) {
     setState(() {
       _errorIdentifier = null;
@@ -81,7 +97,7 @@ class _LoginFormState extends State<LoginForm> {
 
   Future<void> _authenticate() async {
     final status = await UserLogin.of(context).login(
-        email: _identifierController.text, password: _passwordController.text);
+        email: _identifierController.text.trim(), password: _passwordController.text);
     if (status == ConnectionStatus.connected) {
       Navigator.of(context).pushNamed("/home");
     } else {

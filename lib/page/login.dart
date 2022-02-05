@@ -12,17 +12,17 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.canvas,
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: _buildTitle(context),
+        centerTitle: true,
+      ),
+      extendBody: true,
+      body: ListView(
+        shrinkWrap: true,
         children: [
-          const Spacer(),
-          _buildTitle(context),
-          const Spacer(),
           _buildLoader(context),
-          const Spacer(),
           _buildForm(context),
-          const Spacer()
         ],
       ),
     );
@@ -38,6 +38,7 @@ class LoginPage extends StatelessWidget {
 
   Widget _buildLoader(BuildContext context) {
     final loader = Container(
+      margin: const EdgeInsets.symmetric(vertical: 40.0),
       constraints: BoxConstraints.tight(const Size.square(200)),
       child: const BoardLoader(),
     );

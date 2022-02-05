@@ -37,18 +37,15 @@ class Levels extends InheritedModel<String> {
     if(_levels.isNotEmpty) {
       return _levels;
     }
-    final data = await _database.collection("levels").get();
-    print("Data:$data");
-    print("Data size:${data.size}");
-    _levels = data.docs.map((data) => _levelFromMap(data.id, data.data())).toList();
+    final data = await _database.collection("levels").orderBy("level").get();
+    _levels = data.docs.map((data) => _levelFromMap(data.data())).toList();
     return _levels;
 
   }
 
-  Level _levelFromMap(String id, Map<String, dynamic> map) {
-    print(map);
+  Level _levelFromMap(Map<String, dynamic> map) {
     return Level(
-      id: id,
+      id: map["level"],
       puzzle: map["path"],
       location: map["location"],
       titleFr: map["titleFr"],

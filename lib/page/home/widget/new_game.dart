@@ -95,16 +95,16 @@ class _HomeNewGameState extends State<HomeNewGame>
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final levels = snapshot.data ?? [];
-            return ListView.builder(
-              shrinkWrap: true,
+            return PageView.builder(
               itemCount: levels.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) =>
-                  LevelListviewItem(level:levels[index],
-                    isSelected: _level == levels[index],
-                    onLevelSelected: onLevelSelected,
-                  ),
-            );
+                controller: PageController(viewportFraction: 0.5),
+                onPageChanged: (index) => onLevelSelected(levels[index]),
+                itemBuilder: (context, index){
+              return  LevelListviewItem(level:levels[index],
+                          isSelected: _level == levels[index],
+                          onLevelSelected: onLevelSelected,
+                        );
+            });
           }
           return const SizedBox.shrink();
         },

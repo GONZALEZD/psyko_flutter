@@ -17,7 +17,7 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
 
   String? _errorEmail;
   String? _errorPassword;
-  final List<FocusNode?> _fieldFocus = [null, FocusNode(),FocusNode()];
+  final List<FocusNode?> _fieldFocus = [null, FocusNode(), FocusNode(), FocusNode()];
 
   @override
   void initState() {
@@ -92,6 +92,7 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
     b1 && b2);
     return Padding(padding: const EdgeInsets.only(top: 20),
       child: ElevatedButton(
+        focusNode: _fieldFocus[3],
         child: Text(AppLocalizations.of(context)!.create_account_button),
         onPressed:isEnabled ? createAccount : null,
       ),
