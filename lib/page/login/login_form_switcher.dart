@@ -1,23 +1,21 @@
 import 'package:dgo_puzzle/page/login/account_creation_form.dart';
 import 'package:dgo_puzzle/page/login/login_form.dart';
+import 'package:dgo_puzzle/page/login/login_main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginFormSwitcher extends StatefulWidget {
+
+
   const LoginFormSwitcher({Key? key}) : super(key: key);
 
   @override
   _LoginFormSwitcherState createState() => _LoginFormSwitcherState();
 }
 
-enum _LoginState {
-  mainMenu,
-  createAccount,
-  login,
-}
 
 class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
-  _LoginState state = _LoginState.mainMenu;
+  MainMenuChoice? state;
 
   @override
   void initState() {
@@ -26,13 +24,14 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
 
   @override
   Widget build(BuildContext context) {
+    final axis = MediaQuery.of(context).size.aspectRatio > 1.0 ? Axis.horizontal : Axis.vertical;
     buildChild() {
       switch (state) {
-        case _LoginState.mainMenu:
-          return _buildInitialState(context);
-        case _LoginState.createAccount:
+        case null:
+          return LoginMainMenu(direction: axis, onSelected: _onMenuSelection);
+        case MainMenuChoice.createAccount:
           return const AccountCreationForm();
-        case _LoginState.login:
+        case MainMenuChoice.login:
           return const LoginForm();
       }
     }
@@ -43,7 +42,7 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
           duration: const Duration(milliseconds: 500),
           child: buildChild(),
         ),
-        if (state != _LoginState.mainMenu) _buildBackButton(),
+        if (state != null) _buildBackButton(),
       ],
     );
   }
@@ -55,39 +54,15 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
     );
   }
 
-  Widget _buildInitialState(BuildContext context) {
-    final strings = AppLocalizations.of(context)!;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TextButton(
-            onPressed: _onLoginClicked,
-            child: Text(strings.login_connect_button)),
-        const SizedBox(
-          height: 20,
-        ),
-        TextButton(
-            onPressed: _onCreateAccountClicked,
-            child: Text(strings.login_create_account_button)),
-      ],
-    );
+  void _onMenuSelection(MainMenuChoice choice) {
+    setState(() {
+      state = choice;
+    });
   }
 
   void _goToMainMenu() {
     setState(() {
-      state = _LoginState.mainMenu;
-    });
-  }
-
-  void _onCreateAccountClicked() {
-    setState(() {
-      state = _LoginState.createAccount;
-    });
-  }
-
-  void _onLoginClicked() {
-    setState(() {
-      state = _LoginState.login;
+      state = null;
     });
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:dgo_puzzle/game/level.dart';
-import 'package:dgo_puzzle/provider/levels.dart';
+import 'package:dgo_puzzle/service/levels.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 typedef OnLevelSelected = void Function(Level level);
 
@@ -24,12 +24,13 @@ class LevelListviewItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => onLevelSelected(level),
       child: ConstrainedBox(
-        constraints: const BoxConstraints.tightFor(
-          width: 180,
-          height: 240,
-        ),
+        constraints: const BoxConstraints.tightFor(height: 256),
         child: AnimatedContainer(
-          margin: const EdgeInsets.all(6.0),
+          margin: const EdgeInsets.all(12.0),
+          transform: isSelected
+              ? Matrix4.identity()
+              : Matrix4.identity().scaled(0.9, 0.9),
+          transformAlignment: Alignment.center,
           decoration: BoxDecoration(
               color: (isSelected)
                   ? Colors.lightBlue.shade100
@@ -37,47 +38,71 @@ class LevelListviewItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.grey.shade300,
-                    blurRadius: 30.0,
+                    color: Colors.grey.shade400,
+                    blurRadius: isSelected ? 8.0 : 2.0,
                     spreadRadius: 0.0,
                     blurStyle: BlurStyle.solid)
               ]),
           curve: Curves.easeInOut,
           duration: const Duration(milliseconds: 250),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                child: Text(level.fullName(Localizations.localeOf(context))),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildTitle(context),
+                  Expanded(
+                    child: _buildImage(context),
+                  )
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 6.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.location_pin,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    Flexible(
-                      child: Text(
-                        level.location,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).primaryColor),
-                        maxLines: 2,
-                      ),
-                    )
-                  ],
-                ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: _buildLocation(context),
               ),
-              Expanded(
-                child: _buildImage(context),
-              )
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTitle(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        level.fullName(Localizations.localeOf(context)) + "\n",
+        maxLines: 2,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _buildLocation(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.location_pin,
+            color: Colors.white,
+          ),
+          Flexible(
+            child: Text(
+              level.location,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.white,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
+        ],
       ),
     );
   }
@@ -86,16 +111,17 @@ class LevelListviewItem extends StatelessWidget {
     return FutureBuilder<Uint8List>(
       future: Levels.of(context).loadThumbnail(level),
       builder: (c, snapshot) {
-        Widget child = const SizedBox.shrink();
+        Widget child = const Center(child: CircularProgressIndicator());
         if (snapshot.hasData && snapshot.data != null) {
-          child = Image.memory(snapshot.data!);
+          child = Image.memory(
+            snapshot.data!,
+            fit: BoxFit.cover,
+          );
         }
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: child,
-          ),
+        return ClipRRect(
+          borderRadius:
+              const BorderRadius.vertical(bottom: Radius.circular(8.0)),
+          child: child,
         );
       },
     );

@@ -27,7 +27,7 @@ class GameStatus extends ValueNotifier<GameStatusData> {
       moves: nbMoves,
     );
     if(isComplete && numberOfRemainingTiles == 0) {
-      _timer?.cancel();
+      stopTimer();
     }
   }
 

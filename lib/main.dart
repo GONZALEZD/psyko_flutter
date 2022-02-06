@@ -1,24 +1,17 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:debug_toolbox/debug_toolbox.dart';
 import 'package:dgo_puzzle/firebase_options.dart';
 import 'package:dgo_puzzle/game/game_data.dart';
-import 'package:dgo_puzzle/page/home.dart';
-import 'package:dgo_puzzle/page/login.dart';
-import 'package:dgo_puzzle/page/play.dart';
-import 'package:dgo_puzzle/provider/fire_server.dart';
-import 'package:dgo_puzzle/widget/image_tile.dart';
-import 'package:engine/engine.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dgo_puzzle/page/home_page.dart';
+import 'package:dgo_puzzle/page/login_page.dart';
+import 'package:dgo_puzzle/page/play_page.dart';
+import 'package:dgo_puzzle/service/fire_server.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

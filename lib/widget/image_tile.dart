@@ -9,15 +9,17 @@ import 'package:flutter/widgets.dart';
 class ImageTile extends StatefulWidget {
   final ImageProvider image;
   final Rect part;
+  final BorderRadius radius;
   final bool greyScale;
 
   const ImageTile(
-      {Key? key, required this.image, required this.part, required this.greyScale})
+      {Key? key, required this.image, required this.part, required this.greyScale, required this.radius})
       : super(key: key);
 
-  factory ImageTile.fromTile(ImageProvider image, Tile tile, int sides, bool greyScale) {
+  factory ImageTile.fromTile(ImageProvider image, Tile tile, int sides, bool greyScale, BorderRadius radius) {
     return ImageTile(
         image: image,
+        radius: radius,
         greyScale: greyScale,
         part: Rect.fromLTWH(
           tile.x.toDouble() / sides.toDouble(),
@@ -74,6 +76,7 @@ class _ImageTileState extends State<ImageTile> {
     if (_image != null) {
       return AbsorbPointer(
           child: _ImagePart(
+            radius: widget.radius,
         image: _image!,
         part: widget.part,
         tintColor: widget.greyScale ? greyScale : null,
@@ -93,14 +96,15 @@ class _ImageTileState extends State<ImageTile> {
 class _ImagePart extends SingleChildRenderObjectWidget {
   final ui.Image image;
   final Rect part;
+  final BorderRadius radius;
   final ColorFilter? tintColor;
 
-  _ImagePart({required this.image, required this.part, this.tintColor})
+  _ImagePart({required this.image, required this.part, this.tintColor, required this.radius})
       : super();
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _ImagePartRenderer(image: image, part: part)
+    return _ImagePartRenderer(image: image, part: part, radius: radius)
       ..tint = tintColor;
   }
 
@@ -110,6 +114,7 @@ class _ImagePart extends SingleChildRenderObjectWidget {
     renderObject
       ..image = image
       ..part = part
+      ..radius = radius
       ..tint = tintColor;
     renderObject.markNeedsPaint();
   }
@@ -118,6 +123,7 @@ class _ImagePart extends SingleChildRenderObjectWidget {
 class _ImagePartRenderer extends RenderProxyBox {
   ui.Image image;
   Rect part;
+  BorderRadius radius;
   Paint painter = Paint();
 
   set tint(ColorFilter? filter) {
@@ -132,9 +138,10 @@ class _ImagePartRenderer extends RenderProxyBox {
     final imgRect = Rect.fromLTWH(part.left * side, part.top * side,
         part.width * side, part.height * side);
 
+    context.canvas.clipRRect(radius.toRRect(paintBounds.shift(offset)));
     context.canvas
         .drawImageRect(image, imgRect, paintBounds.shift(offset), painter);
   }
 
-  _ImagePartRenderer({required this.image, required this.part}) : super();
+  _ImagePartRenderer({required this.image, required this.part, required this.radius}) : super();
 }
