@@ -1,6 +1,6 @@
 import 'package:dgo_puzzle/page/home/widget/home_ranking.dart';
 import 'package:dgo_puzzle/page/home/widget/new_game.dart';
-import 'package:dgo_puzzle/page/home/widget/rules.dart';
+import 'package:dgo_puzzle/page/home/widget/home_rules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -35,16 +35,20 @@ class _MobileHomeLayoutState extends State<MobileHomeLayout>
           Expanded(
               child: TabBarView(
             controller: controller,
-            children: const [
-              HomeNewGame(),
-              HomeRanking(),
-              HomeRules(),
+            children: [
+              const HomeNewGame(),
+              const HomeRanking(),
+              HomeTutorial(onTutorialEnd: onTutorialEnd),
             ],
           )),
           _buildBottomBar(context, localizedStrings),
         ],
       ),
     );
+  }
+
+  void onTutorialEnd(bool skipped) {
+    controller.animateTo(0);
   }
 
   Widget _buildBottomBar(BuildContext context, AppLocalizations strings) {

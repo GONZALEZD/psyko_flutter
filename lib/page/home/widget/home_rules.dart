@@ -2,13 +2,20 @@ import 'package:dgo_puzzle/utils/platform_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomeRules extends StatelessWidget {
-  const HomeRules({Key? key}) : super(key: key);
+typedef OnTutorialEnd = void Function(bool isSkipped);
+class HomeTutorial extends StatelessWidget {
+
+  final OnTutorialEnd onTutorialEnd;
+
+  const HomeTutorial({Key? key, required this.onTutorialEnd}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: TutorialPageView(),
+    return Center(
+      child: TutorialPageView(
+        onSkip: () => onTutorialEnd(true),
+        onDone: () => onTutorialEnd(false),
+      ),
     );
   }
 }

@@ -79,7 +79,7 @@
         "description": "Nouveau jeu"
     },
 
-    "menu_scores": "Scores",
+    "menu_scores": "Classement",
     "@menu_scores": {
         "description": "Tableau des scores"
     },

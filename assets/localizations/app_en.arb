@@ -82,7 +82,7 @@
     "description": "New game"
   },
 
-  "menu_scores": "Scores",
+  "menu_scores": "Ranking",
   "@menu_scores": {
     "description": "Players scores board"
   },
