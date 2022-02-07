@@ -1,4 +1,5 @@
 import 'package:engine/engine.dart';
+import 'package:engine/src/board_solver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -158,6 +159,25 @@ void main() {
       final accessor = board.whitespace;
       final fromTiles = board.tiles.firstWhere((tile) => tile.id == 9);
       expect(accessor == fromTiles, true);
+    });
+  });
+  group('Test inversions count', (){
+    /**
+     * Source: https://fr.wikipedia.org/wiki/Taquin#Algorithmique
+     */
+    test('Test inversion from wikipedia', () {
+      final whitespace = -1;
+      final board = BoardSolver(
+          puzzle: [13, 2, 3, 12, 9, 11, 1, 10, whitespace, 6, 4, 14, 15, 8, 7, 5],
+          solution: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, whitespace],
+          side: 4, whitespaceValue: whitespace);
+
+      final actual = board.countInversions();
+      expect(actual, 11, reason: "It should be 11 permutations");
+      int whitemoveActual = board.whiteMovesCount();
+      expect(whitemoveActual, 4);
+
+      expect(board.isSolvable(), false);
     });
   });
 }

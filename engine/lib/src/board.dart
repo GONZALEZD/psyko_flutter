@@ -1,38 +1,14 @@
 import 'dart:math';
-import 'dart:ui';
 
+import 'package:engine/src/board_solver.dart';
+import 'package:engine/src/tile.dart';
 import 'package:flutter/foundation.dart';
 
-class Tile {
-  final int x;
-  final int y;
-  final int id;
-
-  Tile({
-    required this.x,
-    required this.y,
-    required this.id,
-  });
-
-  @override
-  int get hashCode => hashValues(x, y, id);
-
-  @override
-  bool operator ==(Object other) {
-    if (other is Tile) {
-      return id == other.id && x == other.x && y == other.y;
-    }
-    return false;
-  }
-
-  @override
-  String toString() => "Tile(id=$id, x=$x, y=$y)";
-}
-
-typedef BoardStatusListener = Function(bool isComplete, int remainingTiles, int movesCount);
+typedef BoardStatusListener = Function(
+    bool isComplete, int remainingTiles, int movesCount);
 
 class Board {
-  final int _whitespaceId;
+  final int _whitespaceValue;
   final int side;
   BoardStatusListener? listener;
   int _movesCount;
@@ -47,39 +23,49 @@ class Board {
   List<Tile> get solution => _solution.toTiles(side);
 
   Tile get whitespace {
-    final index = _current.indexOf(_whitespaceId);
+    final index = _current.indexOf(_whitespaceValue);
     final pos = _position(index);
     return Tile(
-      id: _whitespaceId,
+      id: _whitespaceValue,
       x: pos.x,
       y: pos.y,
     );
   }
 
-  Board._(
-      {required this.side,
-      required List<int> solution,
-      required int whitespaceTile,
-        this.listener,})
-      : _solution = solution,
+  Board._({
+    required this.side,
+    required List<int> solution,
+    required List<int> current,
+    required int whitespaceTile,
+    this.listener,
+  })  : _solution = solution,
         _movesCount = 0,
-        _whitespaceId = whitespaceTile,
-        assert(solution.length == side * side) {
-    _current = List.from(solution, growable: false);
-  }
+        _whitespaceValue = whitespaceTile,
+        _current = current,
+        assert(solution.length == side * side);
 
-  factory Board.sized(int size, {int? whiteTilePos, BoardStatusListener? listener}) {
+  factory Board.sized(int size,
+      {int? whiteTilePos, BoardStatusListener? listener}) {
     final whitePos = whiteTilePos ?? Random().nextInt(size * size);
     assert(0 <= whitePos && whitePos < size * size);
     final tiles = List<int>.generate(size * size, (index) => index);
     return Board._(
-        side: size, solution: tiles, whitespaceTile: tiles[whitePos], listener: listener);
+        side: size,
+        solution: tiles,
+        current: List.from(tiles, growable: false),
+        whitespaceTile: tiles[whitePos],
+        listener: listener);
   }
 
-  void shuffle({Random? random}) => _current.shuffle(random);
+  void shuffle({Random? random}) {
+    _current.shuffle(random);
+    while(!isSolvable()) {
+      _current.shuffle(Random.secure());
+    }
+  }
 
   void resolve() {
-    for(int i=0; i< _solution.length; i++) {
+    for (int i = 0; i < _solution.length; i++) {
       _current[i] = _solution[i];
     }
     listener?.call(isComplete(), numberOfMissingTiles(), _movesCount);
@@ -108,7 +94,7 @@ class Board {
   // tile.
   bool canBeMoved(int tileId) {
     final tilePos = _position(_current.indexOf(tileId));
-    final whitespaceTilePos = _position(_current.indexOf(_whitespaceId));
+    final whitespaceTilePos = _position(_current.indexOf(_whitespaceValue));
     if (tilePos == whitespaceTilePos) {
       return false;
     }
@@ -127,11 +113,11 @@ class Board {
 
   void move(int tileId) {
     if (canBeMoved(tileId)) {
-      final wPos = _current.indexOf(_whitespaceId);
+      final wPos = _current.indexOf(_whitespaceValue);
       final tPos = _current.indexOf(tileId);
       _movesCount++;
       _current[wPos] = tileId;
-      _current[tPos] = _whitespaceId;
+      _current[tPos] = _whitespaceValue;
       listener?.call(isComplete(), numberOfMissingTiles(), _movesCount);
     }
   }
@@ -141,6 +127,15 @@ class Board {
   int _columnOf(int index) => index % side;
 
   Point<int> _position(int index) => Point(_columnOf(index), _rowOf(index));
+
+  bool isSolvable() {
+    final solver = BoardSolver(
+        side: side,
+        solution: _solution,
+        puzzle: _current,
+        whitespaceValue: _whitespaceValue);
+    return solver.isSolvable();
+  }
 }
 
 extension ListToTiles on List<int> {
