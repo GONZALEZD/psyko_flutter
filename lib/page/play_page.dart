@@ -1,4 +1,5 @@
 import 'package:adaptive_layout/adaptive_layout.dart';
+import 'package:debug_toolbox/debug_toolbox.dart';
 import 'package:dgo_puzzle/game/game_data.dart';
 import 'package:dgo_puzzle/page/play/game_board.dart';
 import 'package:flutter/material.dart';
@@ -17,18 +18,17 @@ class PlayPage extends StatelessWidget {
     final textColor = Theme.of(context).colorScheme.onSurface;
 
     return Scaffold(
-      appBar: AppBar(
-        title: _buildTitle(context),
-        centerTitle: true,
-        systemOverlayStyle: appBarTheme,
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        foregroundColor: textColor,
-      ),
-      body: Builder(
-        builder: (c) => _buildBody(c),
-      )
-    );
+        appBar: AppBar(
+          title: _buildTitle(context),
+          centerTitle: true,
+          systemOverlayStyle: appBarTheme,
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          foregroundColor: textColor,
+        ),
+        body: Builder(
+          builder: (c) => _buildBody(c),
+        ));
   }
 
   Widget _buildBody(BuildContext context) {
@@ -52,6 +52,10 @@ class PlayPage extends StatelessWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
-    return Text(game.level.fullName(Localizations.localeOf(context)));
+    return DebugAccessWrapper(
+      child: Text(
+        game.level.fullName(Localizations.localeOf(context)),
+      ),
+    );
   }
 }

@@ -56,7 +56,10 @@ class _TutorialPageViewState extends State<TutorialPageView> {
             children: pages,
           ),
         ),
-        _buildControlBar(context, pages.length),
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: _buildControlBar(context, pages.length),
+        ),
       ],
     );
   }
@@ -118,9 +121,12 @@ class _TutorialPageViewState extends State<TutorialPageView> {
           onPressed: hasNextPage ? _skipTutorial : null,
 
         ),
-        TextButton(
-          child: Text(hasNextPage ? strings.tutorial_next_button : strings.tutorial_done_button),
-          onPressed: hasNextPage ? _nextTutorialPage : _validateTutorial,
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: ElevatedButton(
+            child: Text(hasNextPage ? strings.tutorial_next_button : strings.tutorial_done_button),
+            onPressed: hasNextPage ? _nextTutorialPage : _validateTutorial,
+          ),
         )
         ,
       ],

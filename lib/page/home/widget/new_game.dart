@@ -25,6 +25,7 @@ class _HomeNewGameState extends State<HomeNewGame>
     return Center(
       child: ListView(
         shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
         children: [
           _buildDifficultySection(),
           const SizedBox(
@@ -66,14 +67,12 @@ class _HomeNewGameState extends State<HomeNewGame>
   }
 
   Widget _buildForm(BuildContext context) {
-    return Center(
-      child: Container(
-        constraints: BoxConstraints.tightFor(width: widget.maxWidth),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-          onPressed: _level != null ? _playGame : null,
-          child: Text(AppLocalizations.of(context)!.play_game_button),
-        ),
+    return Container(
+      constraints: BoxConstraints.tightFor(width: widget.maxWidth),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0) + EdgeInsets.only(bottom: 20.0),
+      child: ElevatedButton(
+        onPressed: _level != null ? _playGame : null,
+        child: Text(AppLocalizations.of(context)!.play_game_button),
       ),
     );
   }

@@ -31,6 +31,7 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: _buildFields(context),
     );
   }
@@ -66,7 +67,7 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
   Widget _buildField(
       {required String name, required String hint, String? errorText, required TextEditingController controller, bool obscureText = false, FocusNode? focus}) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         focusNode: focus,
         maxLines: 1,
@@ -90,7 +91,7 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
       _playerNameController
     ].map((controller) => controller.text.isNotEmpty).reduce((b1, b2) =>
     b1 && b2);
-    return Padding(padding: const EdgeInsets.only(top: 20),
+    return Padding(padding: const EdgeInsets.only(top: 40),
       child: ElevatedButton(
         focusNode: _fieldFocus[3],
         child: Text(AppLocalizations.of(context)!.create_account_button),

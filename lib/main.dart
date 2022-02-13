@@ -6,6 +6,7 @@ import 'package:dgo_puzzle/page/home_page.dart';
 import 'package:dgo_puzzle/page/login_page.dart';
 import 'package:dgo_puzzle/page/play_page.dart';
 import 'package:dgo_puzzle/service/fire_server.dart';
+import 'package:dgo_puzzle/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -64,8 +65,8 @@ class MyApp extends StatelessWidget {
           shortcuts: config.shortcuts,
           actions: config.actions,
           debugShowCheckedModeBanner: config.showBanner,
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
+          theme: AppTheme().light,
+          darkTheme: AppTheme().dark,
         );
       },
     );

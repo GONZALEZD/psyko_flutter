@@ -26,6 +26,13 @@ class MaterialAppConfigWidget extends StatelessWidget {
                 onValueChanged: (value) => toolbox.displayFrames = value,
               ),
               const Divider(),
+              _buildChoiceTile<ThemeMode>(context,
+                  groupTitle: "Select Theme",
+                  currentValue: toolbox.themeMode,
+                  choices: ThemeMode.values.asNameMap(),
+                  onValueChanged: (value) =>
+                  toolbox.themeMode = value ?? toolbox.themeMode),
+              const Divider(),
               _buildChoiceTile<TargetPlatform>(
                 context,
                 groupTitle: "Select Platform",
@@ -34,13 +41,6 @@ class MaterialAppConfigWidget extends StatelessWidget {
                 onValueChanged: (value) =>
                     toolbox.platform = value ?? toolbox.platform,
               ),
-              const Divider(),
-              _buildChoiceTile<ThemeMode>(context,
-                  groupTitle: "Select Theme",
-                  currentValue: toolbox.themeMode,
-                  choices: ThemeMode.values.asNameMap(),
-                  onValueChanged: (value) =>
-                      toolbox.themeMode = value ?? toolbox.themeMode),
             ],
           );
         });

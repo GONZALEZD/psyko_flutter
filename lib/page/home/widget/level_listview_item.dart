@@ -32,14 +32,15 @@ class LevelListviewItem extends StatelessWidget {
               : Matrix4.identity().scaled(0.9, 0.9),
           transformAlignment: Alignment.center,
           decoration: BoxDecoration(
-              color: (isSelected)
-                  ? Colors.lightBlue.shade100
+              color: isSelected
+                  ? Theme.of(context).colorScheme.onSurface
                   : Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(8.0),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.grey.shade400,
-                    blurRadius: isSelected ? 8.0 : 2.0,
+                    color: Colors.grey.shade800,
+                    offset: const Offset(0.0, 1.0),
+                    blurRadius: isSelected ? 4.0 : 1.0,
                     spreadRadius: 0.0,
                     blurStyle: BlurStyle.solid)
               ]),
@@ -71,21 +72,31 @@ class LevelListviewItem extends StatelessWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
         level.fullName(Localizations.localeOf(context)) + "\n",
         maxLines: 2,
         textAlign: TextAlign.center,
+        style: TextStyle(color: isSelected ? scheme.surface : scheme.onSurface),
       ),
     );
   }
 
   Widget _buildLocation(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(8.0),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(7.0)),
+        gradient: LinearGradient(
+          colors: [Colors.black, Colors.transparent],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter
+        )
+      ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: [
           const Icon(
             Icons.location_pin,

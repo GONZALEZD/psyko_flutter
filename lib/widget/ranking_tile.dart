@@ -8,9 +8,8 @@ class RankingTile extends StatelessWidget {
   final Duration time;
   final int movesCount;
   final int score;
-  final Color background;
 
-  const RankingTile({Key? key, required this.rank, required this.playerName, required this.time, required this.movesCount, required this.score, required this.background}) : super(key: key);
+  const RankingTile({Key? key, required this.rank, required this.playerName, required this.time, required this.movesCount, required this.score}) : super(key: key);
 
   factory RankingTile.score(Score score, int rank) => RankingTile(
     rank: rank,
@@ -18,13 +17,11 @@ class RankingTile extends StatelessWidget {
     time: score.duration,
     movesCount: score.moveCount,
     score: score.score,
-    background: score.difficulty.associatedColor,
   );
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: background,
       child: ListTile(
         leading: Text("$rank"),
         title: Row(

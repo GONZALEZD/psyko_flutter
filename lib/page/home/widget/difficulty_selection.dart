@@ -2,7 +2,6 @@ import 'package:dgo_puzzle/game/difficulty.dart';
 import 'package:dgo_puzzle/widget/board_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 typedef OnDifficultySelected = void Function(Difficulty? difficulty);
 
@@ -43,7 +42,7 @@ class DifficultySelection extends StatelessWidget {
       width: 2.0,
       height: 60.0,
       decoration: BoxDecoration(
-        color: Theme.of(context).dividerColor,
+        color: Theme.of(context).dividerColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(2.0)
       ),
       margin: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -52,12 +51,11 @@ class DifficultySelection extends StatelessWidget {
   }
 
   Widget _buildSegmentedControl(BuildContext context) {
-    final localizedStrings = AppLocalizations.of(context)!;
     return CupertinoSlidingSegmentedControl<Difficulty>(
       children: {
-        Difficulty.easy: Text(localizedStrings.game_difficulty_easy),
-        Difficulty.medium: Text(localizedStrings.game_difficulty_medium),
-        Difficulty.hard: Text(localizedStrings.game_difficulty_hard),
+        Difficulty.easy: Text(Difficulty.easy.localizedName(context)),
+        Difficulty.medium: Text(Difficulty.medium.localizedName(context)),
+        Difficulty.hard: Text(Difficulty.hard.localizedName(context)),
       },
       onValueChanged: onValueChanged,
       groupValue: selected,

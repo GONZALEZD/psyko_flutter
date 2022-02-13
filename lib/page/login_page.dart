@@ -14,6 +14,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget body = ListView(
       shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
       children: [
         _buildLoader(context),
         _buildForm(context),
@@ -31,40 +32,31 @@ class LoginPage extends StatelessWidget {
         centerTitle: true,
       ),
       extendBody: true,
-      body: body
+      body: body,
     );
   }
 
   Widget _buildTitle(BuildContext context) {
-    return Text(
+    return DebugAccessWrapper(child: Text(
       AppLocalizations.of(context)!.app_title,
-      style: Theme.of(context).textTheme.headline5,
-    );
+    ));
   }
 
   Widget _buildLoader(BuildContext context) {
-    final loader = Container(
+    return Container(
       margin: const EdgeInsets.symmetric(vertical: 40.0),
       constraints: BoxConstraints.tight(const Size.square(200)),
       child: const BoardLoader(),
     );
-    if (kDebugMode) {
-      return GestureDetector(
-        onLongPress: () {
-          HapticFeedback.selectionClick();
-          Toolbox.maybeShowToolbox(context);
-        },
-        child: loader,
-      );
-    } else {
-      return loader;
-    }
   }
 
   Widget _buildForm(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(width: 200),
-      child: const LoginFormSwitcher(),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: LoginFormSwitcher(),
+      ),
     );
   }
 }

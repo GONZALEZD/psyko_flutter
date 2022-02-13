@@ -33,30 +33,36 @@ class _LoginFormState extends State<LoginForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextField(
-          autofocus: true,
-          focusNode: _focuses[0],
-          controller: _identifierController,
-          onEditingComplete: () => _nextFocus(_focuses[0]),
-          onChanged: _onIdentifierChanged,
-          decoration: InputDecoration(
-            hintText: localizedStrings.login_email_hint,
-            errorText: _errorIdentifier,
-          ),
-        ),
-        TextField(
-          focusNode: _focuses[1],
-          onEditingComplete: () => _nextFocus(_focuses[1]),
-          controller: _passwordController,
-          obscureText: true,
-          onChanged: _onPasswordChanged,
-          decoration: InputDecoration(
-            hintText: localizedStrings.login_password_hint,
-            errorText: _errorPassword,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: TextField(
+            autofocus: true,
+            focusNode: _focuses[0],
+            controller: _identifierController,
+            onEditingComplete: () => _nextFocus(_focuses[0]),
+            onChanged: _onIdentifierChanged,
+            decoration: InputDecoration(
+              hintText: localizedStrings.login_email_hint,
+              errorText: _errorIdentifier,
+            ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: TextField(
+            focusNode: _focuses[1],
+            onEditingComplete: () => _nextFocus(_focuses[1]),
+            controller: _passwordController,
+            obscureText: true,
+            onChanged: _onPasswordChanged,
+            decoration: InputDecoration(
+              hintText: localizedStrings.login_password_hint,
+              errorText: _errorPassword,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 40.0),
           child: ElevatedButton(
             focusNode: _focuses[2],
             onPressed: _enableLoginButton ? _authenticate : null,

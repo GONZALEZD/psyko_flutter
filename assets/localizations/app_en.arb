@@ -72,6 +72,8 @@
     "description": "Hard game difficulty"
   },
 
+  "puzzle": "Puzzle",
+
   "play_game_button": "Play",
   "@play_game_button": {
     "description": "Play"

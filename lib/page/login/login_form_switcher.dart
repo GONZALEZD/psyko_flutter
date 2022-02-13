@@ -37,6 +37,7 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
@@ -48,9 +49,13 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
   }
 
   Widget _buildBackButton() {
-    return TextButton(
-      onPressed: _goToMainMenu,
-      child: Text(AppLocalizations.of(context)!.login_go_back_button),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: TextButton.icon(
+        onPressed: _goToMainMenu,
+        icon: const Icon(Icons.arrow_back),
+        label: Text(AppLocalizations.of(context)!.login_go_back_button),
+      ),
     );
   }
 

@@ -40,13 +40,11 @@ class ToolboxDialog extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: maxWidth,
-            child: Center(
-                child: Text(
+          Expanded(
+            child: Text(
               "Debug toolbox",
               style: Theme.of(context).textTheme.headline5,
-            )),
+            ),
           ),
           IconButton(
               onPressed: () {

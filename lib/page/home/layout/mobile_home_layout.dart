@@ -1,3 +1,4 @@
+import 'package:debug_toolbox/debug_toolbox.dart';
 import 'package:dgo_puzzle/page/home/widget/home_ranking.dart';
 import 'package:dgo_puzzle/page/home/widget/new_game.dart';
 import 'package:dgo_puzzle/page/home/widget/home_rules.dart';
@@ -19,6 +20,7 @@ class _MobileHomeLayoutState extends State<MobileHomeLayout>
   void initState() {
     super.initState();
     controller = TabController(length: 3, vsync: this);
+    controller.addListener(() => setState((){}));
   }
 
   @override
@@ -26,9 +28,8 @@ class _MobileHomeLayoutState extends State<MobileHomeLayout>
     final localizedStrings = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         automaticallyImplyLeading: false,
-        title: Text(localizedStrings.app_title),
+        title: DebugAccessWrapper(child: Text(localizedStrings.app_title)),
       ),
       body: Column(
         children: [
@@ -48,7 +49,9 @@ class _MobileHomeLayoutState extends State<MobileHomeLayout>
   }
 
   void onTutorialEnd(bool skipped) {
-    controller.animateTo(0);
+    setState(() {
+      controller.animateTo(0);
+    });
   }
 
   Widget _buildBottomBar(BuildContext context, AppLocalizations strings) {

@@ -69,6 +69,8 @@
         "description": "Jeu en difficulté dure"
     },
 
+    "puzzle": "Puzzle",
+
     "play_game_button": "Jouer",
     "@play_game_button": {
         "description": "Jouer"

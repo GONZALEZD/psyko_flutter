@@ -10,13 +10,13 @@ class GameProgress extends StatelessWidget {
   const GameProgress({Key? key, required this.gameStatus}) : super(key: key);
 
   TextStyle titleStyle(BuildContext context) {
-    return Theme.of(context).textTheme.bodyText1!;
+    return Theme.of(context).textTheme.bodyText1!.copyWith(
+      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+    );
   }
 
   TextStyle dataTextStyle(BuildContext context) {
-    return Theme.of(context).textTheme.headline5!.copyWith(
-          color: Theme.of(context).primaryColor,
-        );
+    return Theme.of(context).textTheme.headline5!;
   }
 
   @override
@@ -82,7 +82,7 @@ class GameProgress extends StatelessWidget {
       children: [
         Text(AppLocalizations.of(context)!.play_moves,
             style: titleStyle(context)),
-        Text("$nbMoves", style: dataTextStyle(context))
+        Text("$nbMoves", style: dataTextStyle(context)),
       ],
     );
   }

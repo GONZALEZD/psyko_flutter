@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -16,19 +17,36 @@ class LoginMainMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final children = _buildButtons(context);
+    switch(direction) {
+      case Axis.vertical: {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children,
+        );
+      }
+      case Axis.horizontal: {
+        return Row(
+          mainAxisSize: MainAxisSize.max,
+          children: children,
+        );
+      }
+    }
+  }
+
+  List<Widget> _buildButtons(BuildContext context) {
     final strings = AppLocalizations.of(context)!;
-    return Wrap(
-      direction: direction,
-      alignment: WrapAlignment.start,
-      spacing: 20.0,
-      children: [
-        TextButton(
-            onPressed: () => onSelected(MainMenuChoice.createAccount),
-            child: Text(strings.login_create_account_button)),
-        ElevatedButton(
+    return [
+      TextButton(
+          onPressed: () => onSelected(MainMenuChoice.createAccount),
+          child: Text(strings.login_create_account_button)),
+      Padding(
+        padding: const EdgeInsets.only(top: 20.0),
+        child: ElevatedButton(
             onPressed: () => onSelected(MainMenuChoice.login),
             child: Text(strings.login_connect_button)),
-      ],
-    );
+      ),
+    ];
   }
 }
