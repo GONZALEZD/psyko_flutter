@@ -1,8 +1,8 @@
 {
   "@@locale" : "en",
-  "app_title": "Psycho Puzzle!",
+  "app_title": "Puzzle Adventure",
   "@app_title": {
-    "description": "Psycho Puzzle"
+    "description": "Puzzle Adventure"
   },
 
   "login_email_hint": "Fill your email address",

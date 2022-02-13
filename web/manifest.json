@@ -1,6 +1,6 @@
 {
-    "name": "dgo_puzzle",
-    "short_name": "dgo_puzzle",
+    "name": "Puzzle adventure",
+    "short_name": "Puzzle adventure",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

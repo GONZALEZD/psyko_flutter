@@ -1,6 +1,6 @@
 {
     "@@locale" : "fr",
-    "app_title": "Psycho Puzzle!",
+    "app_title": "Puzzle Aventure",
 
     "login_email_hint": "Saisissez votre adresse email",
     "@login_email_hint": {
