@@ -68,11 +68,16 @@ class _HomeNewGameState extends State<HomeNewGame>
 
   Widget _buildForm(BuildContext context) {
     return Container(
-      constraints: BoxConstraints.tightFor(width: widget.maxWidth),
+      alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 20.0) + EdgeInsets.only(bottom: 20.0),
       child: ElevatedButton(
         onPressed: _level != null ? _playGame : null,
-        child: Text(AppLocalizations.of(context)!.play_game_button),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tightFor(width: widget.maxWidth ?? double.infinity),
+            child: Text(AppLocalizations.of(context)!.play_game_button,
+              textAlign: TextAlign.center,
+            ),
+        ),
       ),
     );
   }

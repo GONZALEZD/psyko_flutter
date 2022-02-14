@@ -2,49 +2,61 @@ import 'package:dgo_puzzle/page/login/account_creation_form.dart';
 import 'package:dgo_puzzle/page/login/login_form.dart';
 import 'package:dgo_puzzle/page/login/login_main_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+typedef WidthConstraintBuilder = double? Function(LoginMenuChoice menu);
+
 class LoginFormSwitcher extends StatefulWidget {
+  final WidthConstraintBuilder? menuWidth;
 
-
-  const LoginFormSwitcher({Key? key}) : super(key: key);
+  const LoginFormSwitcher({Key? key, this.menuWidth}) : super(key: key);
 
   @override
   _LoginFormSwitcherState createState() => _LoginFormSwitcherState();
 }
 
-
 class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
-  MainMenuChoice? state;
+  late LoginMenuChoice state;
 
   @override
   void initState() {
     super.initState();
+    state = LoginMenuChoice.main;
   }
 
   @override
   Widget build(BuildContext context) {
-    final axis = MediaQuery.of(context).size.aspectRatio > 1.0 ? Axis.horizontal : Axis.vertical;
+    final axis = MediaQuery.of(context).size.aspectRatio > 1.0
+        ? Axis.horizontal
+        : Axis.vertical;
     buildChild() {
       switch (state) {
-        case null:
+        case LoginMenuChoice.main:
           return LoginMainMenu(direction: axis, onSelected: _onMenuSelection);
-        case MainMenuChoice.createAccount:
+        case LoginMenuChoice.createAccount:
           return const AccountCreationForm();
-        case MainMenuChoice.login:
+        case LoginMenuChoice.login:
           return const LoginForm();
       }
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: buildChild(),
-        ),
-        if (state != null) _buildBackButton(),
-      ],
+    final width = widget.menuWidth?.call(state);
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      child: Column(
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints.tightFor(width: width),
+            child: buildChild(),
+          ),
+          if (state != LoginMenuChoice.main)
+            ConstrainedBox(
+              constraints: BoxConstraints.tightFor(width: width),
+              child: _buildBackButton(),
+            ),
+        ],
+      ),
     );
   }
 
@@ -59,7 +71,7 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
     );
   }
 
-  void _onMenuSelection(MainMenuChoice choice) {
+  void _onMenuSelection(LoginMenuChoice choice) {
     setState(() {
       state = choice;
     });
@@ -67,7 +79,7 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
 
   void _goToMainMenu() {
     setState(() {
-      state = null;
+      state = LoginMenuChoice.main;
     });
   }
 }

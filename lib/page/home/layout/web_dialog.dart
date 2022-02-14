@@ -34,7 +34,7 @@ class WebDialog extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: Colors.grey.shade800,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(4.0)),
       ),
       child: Row(

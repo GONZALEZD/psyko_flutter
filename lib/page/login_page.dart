@@ -2,6 +2,7 @@ import 'package:adaptive_layout/adaptive_layout.dart';
 import 'package:debug_toolbox/debug_toolbox.dart';
 import 'package:dgo_puzzle/page/login/board_loader.dart';
 import 'package:dgo_puzzle/page/login/login_form_switcher.dart';
+import 'package:dgo_puzzle/page/login/login_main_menu.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,19 +13,22 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final menuWidth = !context.layoutType.isSmartphone ? (choice){
+      switch(choice) {
+        case LoginMenuChoice.main: return 500.0;
+        default: return 300.0;
+      }
+    } : null;
     Widget body = ListView(
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
       children: [
         _buildLoader(context),
-        _buildForm(context),
+        _buildForm(context, menuWidth),
       ],
     );
     if (!context.layoutType.isSmartphone) {
-      body = Center( child: ConstrainedBox(
-        constraints: const BoxConstraints.tightFor(width: 300.0),
-        child: body,
-      ));
+      body = Center( child: body);
     }
     return Scaffold(
       appBar: AppBar(
@@ -50,12 +54,12 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _buildForm(BuildContext context) {
+  Widget _buildForm(BuildContext context, WidthConstraintBuilder? menuWidth) {
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(width: 200),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: LoginFormSwitcher(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: LoginFormSwitcher(menuWidth: menuWidth,),
       ),
     );
   }

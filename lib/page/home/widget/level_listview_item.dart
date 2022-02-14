@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dgo_puzzle/game/level.dart';
 import 'package:dgo_puzzle/service/levels.dart';
+import 'package:dgo_puzzle/theme/color_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,7 @@ class LevelListviewItem extends StatelessWidget {
           decoration: BoxDecoration(
               color: isSelected
                   ? Theme.of(context).colorScheme.onSurface
-                  : Theme.of(context).cardColor,
+                  : createOverlayColor(elevation: 4.0, background: Theme.of(context).colorScheme.surface, foreground: Colors.white),
               borderRadius: BorderRadius.circular(8.0),
               boxShadow: [
                 BoxShadow(

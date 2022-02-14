@@ -69,7 +69,7 @@ class WebHomeLayout extends StatelessWidget {
             content: HomeTutorial(
               onTutorialEnd: (skipped) => Navigator.of(context).maybePop(),
             ),
-            size: const Size(300, 400),
+            size: const Size(300, 450),
           );
         });
   }
