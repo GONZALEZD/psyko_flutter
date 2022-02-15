@@ -19,15 +19,11 @@ class DifficultySelection extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Row(
+          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _buildSegmentedControl(context),
-                ],
-              ),
+              child: _buildSegmentedControl(context),
             ),
             _buildDivider(context),
             _buildBoard(context),

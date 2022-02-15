@@ -1,8 +1,8 @@
 import 'package:dgo_puzzle/game/game_data.dart';
 import 'package:dgo_puzzle/game/game_status.dart';
 import 'package:dgo_puzzle/game/score.dart';
-import 'package:dgo_puzzle/page/play/animated_board_mixin.dart';
-import 'package:dgo_puzzle/page/play/game_progress.dart';
+import 'package:dgo_puzzle/page/play/widget/animated_board_mixin.dart';
+import 'package:dgo_puzzle/page/play/widget/game_progress.dart';
 import 'package:dgo_puzzle/service/scores.dart';
 import 'package:dgo_puzzle/service/user_login.dart';
 import 'package:flutter/foundation.dart';

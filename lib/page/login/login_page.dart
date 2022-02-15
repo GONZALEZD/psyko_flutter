@@ -1,8 +1,8 @@
 import 'package:adaptive_layout/adaptive_layout.dart';
 import 'package:debug_toolbox/debug_toolbox.dart';
-import 'package:dgo_puzzle/page/login/board_loader.dart';
-import 'package:dgo_puzzle/page/login/login_form_switcher.dart';
-import 'package:dgo_puzzle/page/login/login_main_menu.dart';
+import 'package:dgo_puzzle/page/login/widget/board_loader.dart';
+import 'package:dgo_puzzle/page/login/widget/login_form_switcher.dart';
+import 'package:dgo_puzzle/page/login/widget/login_main_menu.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -39,7 +39,7 @@ class _MobileHomeLayoutState extends State<MobileHomeLayout>
             children: [
               const HomeNewGame(),
               const HomeRanking(),
-              HomeTutorial(onTutorialEnd: onTutorialEnd),
+              HomeTutorial(onTutorialEnd: onTutorialEnd, viewportFraction: 0.7,),
             ],
           )),
           _buildBottomBar(context, localizedStrings),

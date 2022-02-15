@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 typedef OnTutorialEnd = void Function(bool isSkipped);
+
 class HomeTutorial extends StatelessWidget {
-
   final OnTutorialEnd onTutorialEnd;
+  final double viewportFraction;
 
-  const HomeTutorial({Key? key, required this.onTutorialEnd}) : super(key: key);
+  const HomeTutorial(
+      {Key? key, required this.onTutorialEnd, required this.viewportFraction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +18,7 @@ class HomeTutorial extends StatelessWidget {
       child: TutorialPageView(
         onSkip: () => onTutorialEnd(true),
         onDone: () => onTutorialEnd(false),
+        viewportFraction: viewportFraction,
       ),
     );
   }
@@ -23,8 +27,11 @@ class HomeTutorial extends StatelessWidget {
 class TutorialPageView extends StatefulWidget {
   final VoidCallback? onSkip;
   final VoidCallback? onDone;
+  final double viewportFraction;
 
-  const TutorialPageView({Key? key, this.onSkip, this.onDone}) : super(key: key);
+  const TutorialPageView(
+      {Key? key, this.onSkip, this.onDone, required this.viewportFraction})
+      : super(key: key);
 
   @override
   _TutorialPageViewState createState() => _TutorialPageViewState();
@@ -37,7 +44,9 @@ class _TutorialPageViewState extends State<TutorialPageView> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: currentPageIndex);
+    pageController = PageController(
+        initialPage: currentPageIndex,
+        viewportFraction: widget.viewportFraction);
   }
 
   @override
@@ -45,20 +54,22 @@ class _TutorialPageViewState extends State<TutorialPageView> {
     final pages = _buildPages(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
           height: 300,
-          width: 250,
           child: PageView(
             controller: pageController,
             onPageChanged: onPageChanged,
-            children: pages,
+            children: pages.map((p) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: p,
+            )).toList(),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
-          child: _buildControlBar(context, pages.length),
+          child: Center(child: _buildControlBar(context, pages.length)),
         ),
       ],
     );
@@ -69,8 +80,6 @@ class _TutorialPageViewState extends State<TutorialPageView> {
       currentPageIndex = page;
     });
   }
-
-
 
   void _skipTutorial() {
     widget.onSkip?.call();
@@ -119,21 +128,20 @@ class _TutorialPageViewState extends State<TutorialPageView> {
         TextButton(
           child: Text(strings.tutorial_skip_button),
           onPressed: hasNextPage ? _skipTutorial : null,
-
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: ElevatedButton(
-            child: Text(hasNextPage ? strings.tutorial_next_button : strings.tutorial_done_button),
+            child: Text(hasNextPage
+                ? strings.tutorial_next_button
+                : strings.tutorial_done_button),
             onPressed: hasNextPage ? _nextTutorialPage : _validateTutorial,
           ),
-        )
-        ,
+        ),
       ],
     );
   }
 }
-
 
 class TutorialPage extends StatelessWidget {
   final String title;

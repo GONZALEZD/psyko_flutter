@@ -1,6 +1,6 @@
-import 'package:dgo_puzzle/page/login/account_creation_form.dart';
-import 'package:dgo_puzzle/page/login/login_form.dart';
-import 'package:dgo_puzzle/page/login/login_main_menu.dart';
+import 'package:dgo_puzzle/page/login/widget/account_creation_form.dart';
+import 'package:dgo_puzzle/page/login/widget/login_form.dart';
+import 'package:dgo_puzzle/page/login/widget/login_main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

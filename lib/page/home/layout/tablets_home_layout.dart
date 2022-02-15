@@ -2,20 +2,21 @@ import 'package:dgo_puzzle/page/home/layout/web_dialog.dart';
 import 'package:dgo_puzzle/page/home/widget/home_ranking.dart';
 import 'package:dgo_puzzle/page/home/widget/home_rules.dart';
 import 'package:dgo_puzzle/page/home/widget/new_game.dart';
-import 'package:dgo_puzzle/widget/web_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class WebHomeLayout extends StatelessWidget {
-  const WebHomeLayout({Key? key}) : super(key: key);
+class TabletHomeLayout extends StatelessWidget {
+  const TabletHomeLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final localizedStrings = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: WebAppBar(
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
         title: Text(localizedStrings.app_title),
-        centeredActions: _buildActions(context),
+        actions: _buildActions(context),
       ),
       body: const Center(child: HomeNewGame(maxWidth: 400.0)),
     );
@@ -24,31 +25,26 @@ class WebHomeLayout extends StatelessWidget {
   List<Widget> _buildActions(BuildContext context) {
     final localizedStrings = AppLocalizations.of(context)!;
     return [
-      _buildAction(context,
-          name: localizedStrings.menu_scores,
-          action: () => _onRankingClicked(context)),
-      _buildAction(context,
-          name: localizedStrings.menu_game_rules,
-          action: () => _onHelpClicked(context)),
-      const SizedBox(
-        width: 12.0,
+      _buildAction(
+        name: localizedStrings.menu_scores,
+        icon: Icons.sports_score,
+        action: () => _onRankingClicked(context)
       ),
+      _buildAction(
+          name: localizedStrings.menu_game_rules,
+          icon: Icons.help_outline,
+          action: () => _onHelpClicked(context)
+      ),
+      const SizedBox(width: 12.0,),
     ];
   }
 
-  Widget _buildAction(BuildContext context,
-      {required String name, required VoidCallback action}) {
-    return TextButton(
-      onPressed: action,
-      child: Text(name),
-      style: ButtonStyle(
-          fixedSize: MaterialStateProperty.all(const Size(120, 40)),
-          textStyle: MaterialStateProperty.all(
-              const TextStyle(fontWeight: FontWeight.w500)),
-          shape: MaterialStateProperty.all(null),
-          backgroundColor: MaterialStateProperty.all(
-              Theme.of(context).primaryColor.withOpacity(0.05)),
-          side: MaterialStateProperty.all(BorderSide.none)),
+  Widget _buildAction({required String name, required IconData icon, required VoidCallback action}) {
+    return IconButton(
+        onPressed: action,
+        icon: Icon(icon),
+      tooltip: name,
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
     );
   }
 

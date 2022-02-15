@@ -1,7 +1,7 @@
 import 'package:adaptive_layout/adaptive_layout.dart';
 import 'package:debug_toolbox/debug_toolbox.dart';
 import 'package:dgo_puzzle/game/game_data.dart';
-import 'package:dgo_puzzle/page/play/game_board.dart';
+import 'package:dgo_puzzle/page/play/widget/game_board.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

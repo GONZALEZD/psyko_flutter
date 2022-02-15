@@ -27,10 +27,11 @@ class _HomeNewGameState extends State<HomeNewGame>
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
         children: [
-          _buildDifficultySection(),
-          const SizedBox(
-            height: 20.0,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: _buildDifficultySection(),
           ),
+          const SizedBox(height: 20.0),
           ConstrainedBox(
             constraints: const BoxConstraints.tightFor(height: 240),
             child: LevelSelection(
@@ -38,10 +39,11 @@ class _HomeNewGameState extends State<HomeNewGame>
               onValueChanged: _onLevelSelected,
             ),
           ),
-          const SizedBox(
-            height: 20.0,
+          const SizedBox(height: 20.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: _buildForm(context),
           ),
-          _buildForm(context),
         ],
       ),
     );
@@ -55,8 +57,7 @@ class _HomeNewGameState extends State<HomeNewGame>
 
   Widget _buildDifficultySection() {
     return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ConstrainedBox(
         constraints: BoxConstraints.tightFor(width: widget.maxWidth),
         child: DifficultySelection(
           onValueChanged: _selectDifficulty,
@@ -67,16 +68,19 @@ class _HomeNewGameState extends State<HomeNewGame>
   }
 
   Widget _buildForm(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0) + EdgeInsets.only(bottom: 20.0),
-      child: ElevatedButton(
-        onPressed: _level != null ? _playGame : null,
-        child: ConstrainedBox(
-          constraints: BoxConstraints.tightFor(width: widget.maxWidth ?? double.infinity),
-            child: Text(AppLocalizations.of(context)!.play_game_button,
+    return Center(
+      child: ConstrainedBox(
+        constraints:
+            BoxConstraints.tightFor(width: widget.maxWidth ?? double.infinity),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: ElevatedButton(
+            onPressed: _level != null ? _playGame : null,
+            child: Text(
+              AppLocalizations.of(context)!.play_game_button,
               textAlign: TextAlign.center,
             ),
+          ),
         ),
       ),
     );
