@@ -13,10 +13,15 @@ class ImageTile extends StatefulWidget {
   final bool greyScale;
 
   const ImageTile(
-      {Key? key, required this.image, required this.part, required this.greyScale, required this.radius})
+      {Key? key,
+      required this.image,
+      required this.part,
+      required this.greyScale,
+      required this.radius})
       : super(key: key);
 
-  factory ImageTile.fromTile(ImageProvider image, Tile tile, int sides, bool greyScale, BorderRadius radius) {
+  factory ImageTile.fromTile(ImageProvider image, Tile tile, int sides,
+      bool greyScale, BorderRadius radius) {
     return ImageTile(
         image: image,
         radius: radius,
@@ -64,7 +69,7 @@ class _ImageTileState extends State<ImageTile> {
   }
 
   void onImage(ImageInfo image, bool synchronousCall) {
-    if(mounted) {
+    if (mounted) {
       setState(() {
         _image = image.image;
       });
@@ -76,21 +81,19 @@ class _ImageTileState extends State<ImageTile> {
     if (_image != null) {
       return AbsorbPointer(
           child: _ImagePart(
-            radius: widget.radius,
+        radius: widget.radius,
         image: _image!,
         part: widget.part,
-        tintColor: widget.greyScale ? greyScale : null,
+        tintColor: widget.greyScale
+            ? ColorFilter.mode(
+                Theme.of(context).colorScheme.background.withOpacity(0.7),
+                BlendMode.srcATop,
+              )
+            : null,
       ));
     }
     return const SizedBox.shrink();
   }
-
-  static const greyScale = ColorFilter.matrix(<double>[
-  0.2126, 0.7152, 0.0722, 0, 0,
-  0.2126, 0.7152, 0.0722, 0, 0,
-  0.2126, 0.7152, 0.0722, 0, 0,
-  0,      0,      0,      1, 0,
-  ]);
 }
 
 class _ImagePart extends SingleChildRenderObjectWidget {
@@ -99,13 +102,21 @@ class _ImagePart extends SingleChildRenderObjectWidget {
   final BorderRadius radius;
   final ColorFilter? tintColor;
 
-  _ImagePart({required this.image, required this.part, this.tintColor, required this.radius})
+  _ImagePart(
+      {required this.image,
+      required this.part,
+      this.tintColor,
+      required this.radius})
       : super();
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _ImagePartRenderer(image: image, part: part, radius: radius)
-      ..tint = tintColor;
+    return _ImagePartRenderer(
+      image: image,
+      part: part,
+      radius: radius,
+      colorFilter: tintColor,
+    );
   }
 
   @override
@@ -115,7 +126,7 @@ class _ImagePart extends SingleChildRenderObjectWidget {
       ..image = image
       ..part = part
       ..radius = radius
-      ..tint = tintColor;
+      ..painter = (Paint()..colorFilter = tintColor);
     renderObject.markNeedsPaint();
   }
 }
@@ -124,13 +135,14 @@ class _ImagePartRenderer extends RenderProxyBox {
   ui.Image image;
   Rect part;
   BorderRadius radius;
-  Paint painter = Paint();
+  Paint painter;
 
-  set tint(ColorFilter? filter) {
-    if (painter.colorFilter != filter) {
-      painter.colorFilter = filter;
-    }
-  }
+  _ImagePartRenderer(
+      {required this.image,
+      required this.part,
+      required this.radius,
+      ColorFilter? colorFilter})
+      : painter = Paint()..colorFilter = colorFilter;
 
   @override
   void paint(PaintingContext context, Offset offset) {
@@ -142,6 +154,4 @@ class _ImagePartRenderer extends RenderProxyBox {
     context.canvas
         .drawImageRect(image, imgRect, paintBounds.shift(offset), painter);
   }
-
-  _ImagePartRenderer({required this.image, required this.part, required this.radius}) : super();
 }

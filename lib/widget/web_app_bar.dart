@@ -1,3 +1,4 @@
+import 'package:debug_toolbox/debug_toolbox.dart';
 import 'package:flutter/material.dart';
 
 class WebAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -27,27 +28,18 @@ class WebAppBar extends StatelessWidget implements PreferredSizeWidget {
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: _addMargin(centeredActions),
+            children: centeredActions,
           ),
           if ((actions?.length ?? 0) > 0)
             Align(
               alignment: Alignment.centerRight,
               child: Row(
-                children: _addMargin(actions!),
+                children: actions!,
               ),
             ),
         ],
       ),
     );
-  }
-
-  List<Widget> _addMargin(List<Widget> list) {
-    return list
-        .map((item) => Padding(
-      child: item,
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-    ))
-        .toList();
   }
 
   Widget _buildTitle(BuildContext context) {
@@ -57,5 +49,5 @@ class WebAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => const Size.fromHeight(70);
 }

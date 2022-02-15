@@ -1,3 +1,5 @@
+import 'package:debug_toolbox/debug_toolbox.dart';
+import 'package:dgo_puzzle/page/home/layout/action_data_layout.dart';
 import 'package:dgo_puzzle/page/home/layout/web_dialog.dart';
 import 'package:dgo_puzzle/page/home/widget/home_ranking.dart';
 import 'package:dgo_puzzle/page/home/widget/home_rules.dart';
@@ -11,45 +13,52 @@ class WebHomeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizedStrings = AppLocalizations.of(context)!;
+    final width = MediaQuery.of(context).size.width;
+    print("COUCOU $width");
     return Scaffold(
-      appBar: WebAppBar(
-        title: Text(localizedStrings.app_title),
-        centeredActions: _buildActions(context),
-      ),
+      appBar: _buildAppBar(context, width > 800.0),
       body: const Center(child: HomeNewGame(maxWidth: 400.0)),
     );
   }
 
-  List<Widget> _buildActions(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, bool extendedDisplay) {
     final localizedStrings = AppLocalizations.of(context)!;
-    return [
-      _buildAction(context,
-          name: localizedStrings.menu_scores,
-          action: () => _onRankingClicked(context)),
-      _buildAction(context,
-          name: localizedStrings.menu_game_rules,
-          action: () => _onHelpClicked(context)),
-      const SizedBox(
-        width: 12.0,
+    final actionsData = [
+      ActionData(
+        name: localizedStrings.menu_scores,
+        icon: Icons.sports_score,
+        onTap: () => _onRankingClicked(context),
+      ),
+      ActionData(
+        name: localizedStrings.menu_game_rules,
+        icon: Icons.help_outline,
+        onTap: () => _onHelpClicked(context),
       ),
     ];
+    if (extendedDisplay) {
+      return WebAppBar(
+        title: DebugAccessWrapper(child: Text(localizedStrings.app_title)),
+        centeredActions: _buildActions(context, actionsData, true),
+      );
+    } else {
+      return AppBar(
+        title: DebugAccessWrapper(child: Text(localizedStrings.app_title)),
+        actions: _buildActions(context, actionsData, false),
+        automaticallyImplyLeading: false,
+      );
+    }
   }
 
-  Widget _buildAction(BuildContext context,
-      {required String name, required VoidCallback action}) {
-    return TextButton(
-      onPressed: action,
-      child: Text(name),
-      style: ButtonStyle(
-          fixedSize: MaterialStateProperty.all(const Size(120, 40)),
-          textStyle: MaterialStateProperty.all(
-              const TextStyle(fontWeight: FontWeight.w500)),
-          shape: MaterialStateProperty.all(null),
-          backgroundColor: MaterialStateProperty.all(
-              Theme.of(context).primaryColor.withOpacity(0.05)),
-          side: MaterialStateProperty.all(BorderSide.none)),
-    );
+  List<Widget> _buildActions(
+      BuildContext context, List<ActionData> actionData, bool displayIcon) {
+    return [
+      ...actionData
+          .map((action) => displayIcon
+              ? action.buildAsLink(context)
+              : action.buildAsIcon(context))
+          .toList(),
+      const SizedBox(width: 12.0),
+    ];
   }
 
   void _onRankingClicked(BuildContext context) {
@@ -59,7 +68,7 @@ class WebHomeLayout extends StatelessWidget {
           return WebDialog(
             title: AppLocalizations.of(context)!.menu_scores,
             content: const HomeRanking(),
-            size: const Size(400, 400),
+            size: const Size(350, 450),
           );
         });
   }
@@ -72,9 +81,9 @@ class WebHomeLayout extends StatelessWidget {
             title: AppLocalizations.of(context)!.menu_game_rules,
             content: HomeTutorial(
               onTutorialEnd: (skipped) => Navigator.of(context).maybePop(),
-              viewportFraction: 0.9,
+              viewportFraction: 0.8,
             ),
-            size: const Size(300, 450),
+            size: const Size(350, 450),
           );
         });
   }

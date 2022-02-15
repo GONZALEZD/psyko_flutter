@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       appBuilder: (context, config) {
         debugDefaultTargetPlatformOverride = config.platform;
         return MaterialApp(
-          title: 'Puzzle Hack',
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.app_title,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

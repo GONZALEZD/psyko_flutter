@@ -1,3 +1,4 @@
+import 'package:dgo_puzzle/page/home/layout/action_data_layout.dart';
 import 'package:dgo_puzzle/page/home/layout/web_dialog.dart';
 import 'package:dgo_puzzle/page/home/widget/home_ranking.dart';
 import 'package:dgo_puzzle/page/home/widget/home_rules.dart';
@@ -24,28 +25,22 @@ class TabletHomeLayout extends StatelessWidget {
 
   List<Widget> _buildActions(BuildContext context) {
     final localizedStrings = AppLocalizations.of(context)!;
-    return [
-      _buildAction(
+    final actionsData = [
+      ActionData(
         name: localizedStrings.menu_scores,
         icon: Icons.sports_score,
-        action: () => _onRankingClicked(context)
+        onTap: () => _onRankingClicked(context),
       ),
-      _buildAction(
-          name: localizedStrings.menu_game_rules,
-          icon: Icons.help_outline,
-          action: () => _onHelpClicked(context)
+      ActionData(
+        name: localizedStrings.menu_game_rules,
+        icon: Icons.help_outline,
+        onTap: () => _onHelpClicked(context),
       ),
+    ];
+    return [
+      ...actionsData.map((action) => action.buildAsIcon(context)).toList(),
       const SizedBox(width: 12.0,),
     ];
-  }
-
-  Widget _buildAction({required String name, required IconData icon, required VoidCallback action}) {
-    return IconButton(
-        onPressed: action,
-        icon: Icon(icon),
-      tooltip: name,
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
-    );
   }
 
   void _onRankingClicked(BuildContext context) {
