@@ -84,16 +84,26 @@ class _ImageTileState extends State<ImageTile> {
         radius: widget.radius,
         image: _image!,
         part: widget.part,
-        tintColor: widget.greyScale
-            ? ColorFilter.mode(
-                Theme.of(context).colorScheme.background.withOpacity(0.7),
-                BlendMode.srcATop,
-              )
-            : null,
+        tintColor: widget.greyScale ? greyscale : identity
       ));
     }
     return const SizedBox.shrink();
   }
+
+
+  static const ColorFilter identity = ColorFilter.matrix(<double>[
+    1, 0, 0, 0, 0,
+    0, 1, 0, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 0, 1, 0,
+    ]);
+
+  static const ColorFilter greyscale = ColorFilter.matrix(<double>[
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0,      0,      0,      0.33, 0,
+    ]);
 }
 
 class _ImagePart extends SingleChildRenderObjectWidget {
