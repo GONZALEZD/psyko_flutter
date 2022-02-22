@@ -98,6 +98,19 @@ class ShowToolboxIntent extends Intent {
   const ShowToolboxIntent({required this.toolbox});
 }
 
+class CallbackIntent extends Intent {
+  final VoidCallback callback;
+
+  const CallbackIntent({required this.callback});
+}
+
+class ToolboxAction extends Action<CallbackIntent> {
+  @override
+  Object? invoke(CallbackIntent intent) {
+    intent.callback.call();
+  }
+}
+
 class ShowToolboxAction extends ContextAction<ShowToolboxIntent> {
   @override
   Object invoke(ShowToolboxIntent intent, [BuildContext? context]) {

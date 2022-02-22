@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountCreationForm extends StatefulWidget {
-  const AccountCreationForm({Key? key}) : super(key: key);
+  final VoidCallback onLoginCreated;
+  const AccountCreationForm({Key? key, required this.onLoginCreated}) : super(key: key);
 
   @override
   _AccountCreationFormState createState() => _AccountCreationFormState();
@@ -14,6 +15,7 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _playerNameController;
+  bool validationEnabled = false;
 
   String? _errorEmail;
   String? _errorPassword;
@@ -45,6 +47,10 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
         controller: _emailController,
         errorText: _errorEmail,
         focus: _fieldFocus[0],
+        onChanged: () {
+          _errorEmail = null;
+          _updateValidateButtonState();
+        }
       ),
       _buildField(
         name: strings.create_account_password_title,
@@ -53,25 +59,39 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
         errorText: _errorPassword,
         obscureText: true,
         focus: _fieldFocus[1],
+        onChanged: () {
+          _errorPassword = null;
+          _updateValidateButtonState();
+        }
       ),
       _buildField(
         name: strings.create_account_displayname_title,
         hint: strings.create_account_displayname_hint,
         controller: _playerNameController,
         focus: _fieldFocus[2],
+        onChanged: _updateValidateButtonState,
       ),
       _buildValidateButton(),
     ];
   }
 
   Widget _buildField(
-      {required String name, required String hint, String? errorText, required TextEditingController controller, bool obscureText = false, FocusNode? focus}) {
+      {required String name,
+        required String hint,
+        String? errorText,
+        required TextEditingController controller,
+        bool obscureText = false,
+        FocusNode? focus,
+        required VoidCallback onChanged,
+      }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
+      child: TextField(
         focusNode: focus,
         maxLines: 1,
         autofocus: focus == null,
+        onChanged: (_) => onChanged(),
+        textInputAction: _fieldFocus[2] == focus ? TextInputAction.done : TextInputAction.next,
         onEditingComplete: () => findNextFocus(focus),
         obscureText: obscureText,
         decoration: InputDecoration(
@@ -84,18 +104,23 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
     );
   }
 
+  void _updateValidateButtonState() {
+    setState(() {
+      validationEnabled = [
+        _emailController,
+        _passwordController,
+        _playerNameController
+      ].map((controller) => controller.text.isNotEmpty).reduce((b1, b2) =>
+      b1 && b2);
+    });
+  }
+
   Widget _buildValidateButton() {
-    final isEnabled = [
-      _emailController,
-      _passwordController,
-      _playerNameController
-    ].map((controller) => controller.text.isNotEmpty).reduce((b1, b2) =>
-    b1 && b2);
     return Padding(padding: const EdgeInsets.only(top: 40),
       child: ElevatedButton(
         focusNode: _fieldFocus[3],
         child: Text(AppLocalizations.of(context)!.create_account_button),
-        onPressed:isEnabled ? createAccount : null,
+        onPressed:validationEnabled ? createAccount : null,
       ),
     );
   }
@@ -134,6 +159,8 @@ class _AccountCreationFormState extends State<AccountCreationForm> {
             break;
         }
       });
+    } else {
+      widget.onLoginCreated();
     }
   }
 }

@@ -130,5 +130,7 @@
 
     "tutorial_next_button": "Suivant",
     "tutorial_done_button": "Compris",
-    "tutorial_skip_button": "Passer le tutoriel"
+    "tutorial_skip_button": "Passer le tutoriel",
+
+    "account_created_successfully": "Votre compte a été créé !"
 }

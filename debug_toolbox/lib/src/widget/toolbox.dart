@@ -39,12 +39,27 @@ class _ToolboxState extends State<Toolbox> {
     if (kDebugMode) {
       toolbox.shortcuts = {
         const SingleActivator(LogicalKeyboardKey.f12):
-        ShowToolboxIntent(toolbox: toolbox)
+        ShowToolboxIntent(toolbox: toolbox),
+        const SingleActivator(LogicalKeyboardKey.f10) :
+        CallbackIntent(callback: _toggleTheme)
       };
       toolbox.actions = {
-        ShowToolboxIntent : ShowToolboxAction()
+        ShowToolboxIntent : ShowToolboxAction(),
+        CallbackIntent : ToolboxAction(),
       };
     }
+  }
+
+  void _toggleTheme() {
+    print("COUCOU");
+    setState(() {
+      if (toolbox.themeMode == ThemeMode.dark) {
+        toolbox.themeMode = ThemeMode.light;
+      }
+      else {
+        toolbox.themeMode = ThemeMode.dark;
+      }
+    });
   }
 
   @override

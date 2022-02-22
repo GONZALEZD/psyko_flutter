@@ -35,7 +35,8 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
         case LoginMenuChoice.main:
           return LoginMainMenu(direction: axis, onSelected: _onMenuSelection);
         case LoginMenuChoice.createAccount:
-          return const AccountCreationForm();
+          return AccountCreationForm(
+              onLoginCreated: _onLoginCreatedSuccessfully);
         case LoginMenuChoice.login:
           return const LoginForm();
       }
@@ -81,5 +82,15 @@ class _LoginFormSwitcherState extends State<LoginFormSwitcher> {
     setState(() {
       state = LoginMenuChoice.main;
     });
+  }
+
+  void _onLoginCreatedSuccessfully() {
+    _goToMainMenu();
+    final localizedStrings = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(localizedStrings.account_created_successfully),
+        )
+    );
   }
 }

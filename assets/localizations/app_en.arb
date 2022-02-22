@@ -133,5 +133,7 @@
 
   "tutorial_next_button": "Next",
   "tutorial_done_button": "Done",
-  "tutorial_skip_button": "Skip tutorial"
+  "tutorial_skip_button": "Skip tutorial",
+
+  "account_created_successfully": "Your account have been created successfully !"
 }

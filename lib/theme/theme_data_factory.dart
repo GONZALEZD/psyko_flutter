@@ -11,11 +11,15 @@ class ThemeDataFactory {
   final ColorScheme colorScheme;
   final TextTheme textTheme;
 
-  ThemeDataFactory({required this.constants, required this.colorScheme, required TextTheme textTheme})
+  ThemeDataFactory(
+      {required this.constants,
+      required this.colorScheme,
+      required TextTheme textTheme})
       : textTheme = buildCustomTextTheme(textTheme, colorScheme, constants);
 
   ThemeData build() {
-    return ThemeData.from(colorScheme: colorScheme, textTheme: textTheme).copyWith(
+    return ThemeData.from(colorScheme: colorScheme, textTheme: textTheme)
+        .copyWith(
       primaryColorDark: colorScheme.primaryVariant,
       scaffoldBackgroundColor: colorScheme.background,
       backgroundColor: colorScheme.background,
@@ -35,9 +39,19 @@ class ThemeDataFactory {
       toggleableActiveColor: colorScheme.primary,
       dividerColor: colorScheme.divider,
       dividerTheme: buildDividerTheme(),
-      sliderTheme: buildAndroidSliderTheme(),
       appBarTheme: _buildAppBarTheme(),
+      snackBarTheme: _buildSnackBarTheme(),
       bottomNavigationBarTheme: _buildBottomNavigationBarTheme(),
+    );
+  }
+
+  SnackBarThemeData _buildSnackBarTheme() {
+    return SnackBarThemeData(
+      backgroundColor: colorScheme.surface,
+      elevation: 12.0,
+      contentTextStyle: textTheme.bodyText1?.copyWith(
+        color: colorScheme.onSurface,
+      ),
     );
   }
 
@@ -51,16 +65,17 @@ class ThemeDataFactory {
   }
 
   AppBarTheme _buildAppBarTheme() {
-    final overlayStyle = colorScheme.brightness == Brightness.light ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light;
+    final overlayStyle = colorScheme.brightness == Brightness.light
+        ? SystemUiOverlayStyle.dark
+        : SystemUiOverlayStyle.light;
     return AppBarTheme(
-      foregroundColor: colorScheme.onBackground,
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
-      centerTitle: true,
-      toolbarHeight: 60.0,
-      titleTextStyle: textTheme.headline6,
-      systemOverlayStyle: overlayStyle
-    );
+        foregroundColor: colorScheme.onBackground,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        toolbarHeight: 60.0,
+        titleTextStyle: textTheme.headline6,
+        systemOverlayStyle: overlayStyle);
   }
 
   ChipThemeData buildChipTheme() {
@@ -68,19 +83,6 @@ class ThemeDataFactory {
       primaryColor: colorScheme.onBackground,
       secondaryColor: colorScheme.onBackground,
       labelStyle: textTheme.bodyText2!,
-    );
-  }
-
-  SliderThemeData buildAndroidSliderTheme() {
-    final gradient = LinearGradient(
-        colors: [colorScheme.primary, colorScheme.primaryVariant]
-    );
-    return SliderThemeData.fromPrimaryColors(
-      primaryColor: colorScheme.primary,
-      primaryColorDark: colorScheme.primaryVariant,
-      primaryColorLight: colorScheme.primary,
-      valueIndicatorTextStyle: textTheme.bodyText1!,).copyWith(
-      trackHeight: 3.0,
     );
   }
 
@@ -98,15 +100,19 @@ class ThemeDataFactory {
     );
   }
 
-  static TextTheme buildCustomTextTheme(TextTheme from, ColorScheme colorScheme,
-      AppThemeConstants constants) {
+  static TextTheme buildCustomTextTheme(
+      TextTheme from, ColorScheme colorScheme, AppThemeConstants constants) {
     return from
-        .apply(displayColor: colorScheme.onSurface, bodyColor: colorScheme.onBackground)
+        .apply(
+            displayColor: colorScheme.onSurface,
+            bodyColor: colorScheme.onBackground)
         .copyWith(
-      bodyText1: from.bodyText1?.copyWith(color: colorScheme.onSurface, fontSize: constants.body1TextSize),
-      bodyText2: from.bodyText2?.copyWith(fontSize: constants.body2TextSize),
-      button: from.button?.copyWith(fontSize: constants.buttonTextSize),
-    );
+          bodyText1: from.bodyText1?.copyWith(
+              color: colorScheme.onSurface, fontSize: constants.body1TextSize),
+          bodyText2:
+              from.bodyText2?.copyWith(fontSize: constants.body2TextSize),
+          button: from.button?.copyWith(fontSize: constants.buttonTextSize),
+        );
   }
 
   CardTheme buildCardTheme() {
@@ -118,15 +124,16 @@ class ThemeDataFactory {
 
   Color get elevatedSurfaceColor {
     bool isDark = colorScheme.brightness == Brightness.dark;
-    return isDark ? createOverlayColor(
-        elevation: constants.dialogElevation,
-        background: colorScheme.surface,
-        foreground: colorScheme.onSurface,
-    ): colorScheme.background;
+    return isDark
+        ? createOverlayColor(
+            elevation: constants.dialogElevation,
+            background: colorScheme.surface,
+            foreground: colorScheme.onSurface,
+          )
+        : colorScheme.background;
   }
 
   DialogTheme buildDialogTheme() {
-
     return DialogTheme(
       backgroundColor: elevatedSurfaceColor,
       elevation: constants.dialogElevation,
@@ -167,16 +174,15 @@ class ThemeDataFactory {
 
   ElevatedButtonThemeData buildElevatedButtonTheme() {
     return ElevatedButtonThemeData(
-      style: ButtonStyle(
-        fixedSize: MaterialStateProperty.all(const Size.fromHeight(48)),
-        backgroundColor: AppColor.fromScheme(colorScheme.primary, colorScheme),
-        padding: MaterialStateProperty.all(constants.buttonPadding),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-          borderRadius: constants.borderRadius,
-        )),
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-      )
-    );
+        style: ButtonStyle(
+      fixedSize: MaterialStateProperty.all(const Size.fromHeight(48)),
+      backgroundColor: AppColor.fromScheme(colorScheme.primary, colorScheme),
+      padding: MaterialStateProperty.all(constants.buttonPadding),
+      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+        borderRadius: constants.borderRadius,
+      )),
+      foregroundColor: MaterialStateProperty.all(Colors.white),
+    ));
   }
 
   CupertinoThemeData buildCupertinoTheme() {
@@ -192,7 +198,8 @@ class ThemeDataFactory {
         navTitleTextStyle: defaultIOSTextTheme.navTitleTextStyle.copyWith(
           color: colorScheme.onBackground,
         ),
-        navLargeTitleTextStyle: defaultIOSTextTheme.navLargeTitleTextStyle.copyWith(
+        navLargeTitleTextStyle:
+            defaultIOSTextTheme.navLargeTitleTextStyle.copyWith(
           color: colorScheme.onBackground,
         ),
       ),
@@ -216,8 +223,10 @@ class ThemeDataFactory {
         borderSide: BorderSide(color: color, width: 2.0),
       );
     }
+
     return InputDecorationTheme(
-      contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
       border: borderFactory(enabledBorderColor),
       enabledBorder: borderFactory(enabledBorderColor),
       focusedBorder: borderFactory(colorScheme.primary),
