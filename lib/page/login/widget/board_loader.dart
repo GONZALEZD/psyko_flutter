@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dgo_puzzle/animations/board_spread_animatable.dart';
 import 'package:dgo_puzzle/animations/board_state.dart';
 import 'package:dgo_puzzle/animations/tween_board.dart';
@@ -19,14 +21,17 @@ class _BoardLoaderState extends State<BoardLoader>
   late Animation<BoardState> _animation;
   late Board _board;
   Tile? _previousTile;
+  late double cumulatedTime;
 
   Map<int,Color> tileColors = {};
 
   @override
   void initState() {
     super.initState();
-    _board = Board.sized(3);
-    tileColors = _board.tiles.asMap().map((index, tile) => MapEntry(tile.id, MaterialColorList.all()[index]));
+    cumulatedTime = 0;
+    _board = Board.sized(5);
+    final colors = MaterialColorList.all();
+    tileColors = _board.tiles.asMap().map((index, tile) => MapEntry(tile.id, colors[index%colors.length]));
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
     _animation = BoardSpreadAnimatable.fromBoard(_board).animate(_controller);
@@ -36,12 +41,13 @@ class _BoardLoaderState extends State<BoardLoader>
 
   void animStatusListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
+      cumulatedTime += _controller.duration!.inMilliseconds;
       _moveBoard();
     }
   }
 
   void _moveBoard() {
-    _controller.duration = const Duration(milliseconds: 250);
+    _controller.duration = const Duration(milliseconds: 1000);
     final begin = BoardState.fromBoard(_board);
     final possibleTiles = _board.movableTiles();
     possibleTiles.shuffle();
@@ -52,14 +58,24 @@ class _BoardLoaderState extends State<BoardLoader>
     _board.moveTile(moveTile);
     _previousTile = moveTile;
     final end = BoardState.fromBoard(_board);
-    Future.delayed(const Duration(milliseconds: 400), () {
-      setState(() {
-        _animation = TweenBoard(begin: begin, end: end)
-            .chain(CurveTween(curve: Curves.easeInOutCirc))
-            .animate(_controller);
-        _controller.forward(from: 0.0);
-      });
+    setState(() {
+      _animation = ProceduralTweenBoard(
+          begin: begin,
+          end: end,
+        function: boardProcedure,
+      )
+          .chain(CurveTween(curve: Curves.easeInOutCirc))
+          .animate(_controller);
+      _controller.forward(from: 0.0);
     });
+  }
+
+  TileState boardProcedure(TileState tile, double t) {
+    final time = cumulatedTime + _controller.value*(_controller.duration?.inMilliseconds ?? 0.0);
+    final shift = ((tile.dx + tile.dy)/2.5)*pi*2;
+    return tile.copyWith(
+      scale: sin(time/1000.0 + shift)*0.1 + 0.95,
+    );
   }
 
   @override
@@ -88,14 +104,10 @@ class _BoardLoaderState extends State<BoardLoader>
 
 extension MaterialColorList on List<Color> {
   static List<Color> all() => [
-    Colors.deepPurpleAccent,
-    Colors.blueAccent,
-    Colors.lightBlue,
-    Colors.teal,
-    Colors.greenAccent,
-    Colors.amber,
-    Colors.orange,
-    Colors.red.shade600,
-    Colors.pink,
+    Colors.tealAccent.shade400, Colors.greenAccent.shade400, Colors.cyan, Colors.lightBlue, Colors.blue.shade600,
+    Colors.greenAccent.shade400, Colors.cyan, Colors.lightBlue, Colors.blue.shade600, Colors.blue.shade800,
+    Colors.cyan, Colors.lightBlue, Colors.blue.shade600, Colors.blue.shade800, Colors.deepPurple,
+    Colors.lightBlue, Colors.blue.shade600, Colors.blue.shade800, Colors.deepPurple, Colors.purple.shade600,
+    Colors.blue.shade600, Colors.blue.shade800, Colors.deepPurple, Colors.purple.shade600, Colors.pink.shade800
   ];
 }

@@ -20,7 +20,7 @@ class BoardSpreadAnimatable extends Animatable<BoardState> {
     dx ??= 0.5 - delta;
     dy ??= 0.5 - delta;
     List<TileState> current = value.tiles
-        .map((tile) => TileState(dx: dx!, dy: dy!, id: tile.id))
+        .map((tile) => TileState(dx: dx!, dy: dy!, id: tile.id, scale: 1.0))
         .toList();
     List<BoardState> states = [BoardState(tiles: List.from(current))];
     for (int i = 0; i < value.tiles.length; i++) {

@@ -49,7 +49,7 @@ class _EngineDelegate extends FlowDelegate {
         transform: Matrix4.translationValues(
             paddingLeft + context.size.shortestSide * tileState.dx,
             paddingTop + context.size.shortestSide * tileState.dy,
-            0.0),
+            0.0).scaled(tileState.scale, tileState.scale),
       );
     }
   }

@@ -11,12 +11,15 @@ class BoardTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(4.0),
+      margin: const EdgeInsets.all(2.0),
       decoration: BoxDecoration(
-        gradient: SweepGradient(
-          colors: [color.withOpacity(0.5), color, color.withOpacity(0.5)]
+        gradient: LinearGradient(
+          colors: [color.withOpacity(0.5), color, color.withOpacity(0.9)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: const [0.0, 0.7, 1.0]
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(6),
       ),
     );
   }
